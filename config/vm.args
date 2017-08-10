@@ -1,0 +1,6 @@
+-sname mytest
+
+-setcookie mytest_cookie
+
++K true
++A30

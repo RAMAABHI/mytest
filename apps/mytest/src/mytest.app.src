@@ -1,0 +1,19 @@
+{application, mytest, [
+    {description, "mytest!"},
+    {vsn, "0.1.0"},
+    {modules, [mytest_app,mytest_sup,test_handler]},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib,
+        sasl, 
+        cowboy,
+        mongodb,
+        inets,
+        ssl,
+        runtime_tools,
+        jiffy
+    ]},
+    {mod, {mytest_app, []}},
+    {env, []}
+]}.
