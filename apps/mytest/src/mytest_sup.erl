@@ -5,7 +5,9 @@
 -export([init/1]).
 
 start_link() ->
-	supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+	{ok,Pid} = supervisor:start_link({local, ?MODULE}, ?MODULE, []),
+        mongodb(),
+        {ok,Pid}.
 
 init([]) ->
 	Procs = [],
@@ -13,11 +15,5 @@ init([]) ->
 
 
 mongodb() ->
- erlang:spawn_link(test_db,mongo_connect,[]),
- receive
-   {'EXIT',_,_} ->
-          mongodb();
-    stopped ->
-          mongodb
- end.
+ erlang:spawn_link(test_db,mongo_connect,[]).
 
