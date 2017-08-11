@@ -46,12 +46,14 @@ rebar3 shell
 
 -----------------------------------------------------------------------------------------------------------------------------
 1. To Insert movie details into db below command is used
-
+-------------------------------------------------------------------
 sudo curl -v --data "{\"imdbid\": \"323344hhf4\", \"screen\": \"lx3456766\", \"seats\": \"100\", \"movieTitle\": \"Nethrlands\"}" \ --header "Content-Type: application/json" \ http://127.0.0.1:9990/create
 
 If the movie already exits this will through an error and wont add the information:
-------------------------------------------------------------------------------------------------------------------------
-Success
+
+-------------------------------------------------------------------------------------
+when creating a new movie record a success scenarios is described below:
+-------------------------------------------------------------------------
 $ curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\", \"availableSeats\" : 100 , \"movieTitle\": \"movies details\"}"\     --header "Content-Type: application/json"     http://127.0.0.1:9990/create
 * About to connect() to 127.0.0.1 port 9990 (#0)
 *   Trying 127.0.0.1...
@@ -71,7 +73,11 @@ $ curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\
 < server: Cowboy
 < 
 Succesfully updated the record into db
----------------------------------------------
+
+
+
+Create a movie request with invalid inputs:
+----------------------------------------------
 $ curl \
      -v \
      --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\"}" \
@@ -99,6 +105,7 @@ $ curl \
 This basically comes both of when the content is not available. This is being thrown by cowboy web server. If we wanted to through a specifc error, we can use 
    cowboy_req:reply(Number,RequestData).
 This above command will through an requested http code to shell.
+
 ------------------------------------------------------------------------------------------------
 
 
@@ -179,7 +186,21 @@ ________________________________________________________________________________
 
 
 
+mongodb commands used for this opeartions are as below:
+1. Insert a new record to db:
+   mc_worker_api:insert(Connection1,?COLLECTION,[MapRequest]).
+2. update a record (this will be for updating the seat count)
+   mc_worker_api:update(Connection, ?COLLECTION, #{<<"_id">> => Id},#{<<"$set">> => MapRequest}).
+3. find a valid entry exist or Not. If exist then retrive the record.
+   mc_worker_api:find_one(Connection,?COLLECTION,#{<<"imdbid">> => Value, <<"screenid">> => Value1}).
+-----------------------------------------------------------------------------------------------------
 
+To start a mongodb connection manually and this create a process id, which can be used in further communication with mongodb.
+  mc_worker_api:connect([{database,Database}])
+
+------------------------------------------------------------------------------------------------------
+
+NOTE: I haven't added all the functionality to this implementation. This cover some scenarios.
 
 
 
