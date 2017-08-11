@@ -114,7 +114,7 @@ This above command will through an requested http code to shell.
 -------------------
 -------------------
 Success Scenarios
-curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\", \"availableSeats\" : 100 }"\     --header "Content-Type: application/json"     http://127.0.0.1:9990/book
+curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\"}"\     --header "Content-Type: application/json"     http://127.0.0.1:9990/book
 * About to connect() to 127.0.0.1 port 9990 (#0)
 *   Trying 127.0.0.1...
 * Connected to 127.0.0.1 (127.0.0.1) port 9990 (#0)
