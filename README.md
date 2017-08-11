@@ -44,17 +44,18 @@ rebar3 shell
 
 -----------------------------------------------------------------------------------------------------------------
 
------------------------------------------------------------------------------------------------------------------------------
+
 1. To Insert movie details into db below command is used
 -------------------------------------------------------------------
 sudo curl -v --data "{\"imdbid\": \"323344hhf4\", \"screen\": \"lx3456766\", \"seats\": \"100\", \"movieTitle\": \"Nethrlands\"}" \ --header "Content-Type: application/json" \ http://127.0.0.1:9990/create
 
-If the movie already exits this will through an error and wont add the information:
+If the movie already exists, it will through an error and won't add the information to database:
 
--------------------------------------------------------------------------------------
-when creating a new movie record a success scenarios is described below:
+
+When creating a new movie record a success scenarios is described below:
 -------------------------------------------------------------------------
 $ curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\", \"availableSeats\" : 100 , \"movieTitle\": \"movies details\"}"\     --header "Content-Type: application/json"     http://127.0.0.1:9990/create
+
 * About to connect() to 127.0.0.1 port 9990 (#0)
 *   Trying 127.0.0.1...
 * Connected to 127.0.0.1 (127.0.0.1) port 9990 (#0)
@@ -101,8 +102,9 @@ $ curl \
 < server: Cowboy
 < 
 * Connection #0 to host 127.0.0.1 left intact
-[abhilash@localhost ~]$ 
-This basically comes both of when the content is not available. This is being thrown by cowboy web server. If we wanted to through a specifc error, we can use 
+
+The above response is consumed by web-server properly as it is a JSON request. But internal business logic will ensure that no movie information created or updated in the database. But I am not sending any specific error codes in the particluar scenarios(i.e. 400 etc... will result client side errors).
+The 204 response will be success message with out content type. But inreality this it need to result error response.Currently This is being thrown by cowboy web server. If we wanted to through a specifc error, we can use 
    cowboy_req:reply(Number,RequestData).
 This above command will through an requested http code to shell.
 
@@ -114,6 +116,7 @@ This above command will through an requested http code to shell.
 -------------------
 -------------------
 Success Scenarios
+-----------------
 curl     -v     --data "{\"imdbid\": \"xsbg3444\", \"screenid\": \"555kkcmcm1\"}"\     --header "Content-Type: application/json"     http://127.0.0.1:9990/book
 * About to connect() to 127.0.0.1 port 9990 (#0)
 *   Trying 127.0.0.1...
